@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+
 export default function LogIn() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -11,6 +12,8 @@ export default function LogIn() {
 
     if (!email.value) return;
     if (!password.value) return;
+
+    document.cookie = `token-web-app=${email.value}`;
   }
 
   return (
