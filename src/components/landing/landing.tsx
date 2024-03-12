@@ -30,14 +30,12 @@ export default function Landing() {
             textos.
           </p>
         </aside>
-        <aside className="w-[clamp(250px,50%,600px)] border border-black border-solid p-3 rounded-xl absolute left-16 top-[25rem] ">
+        <aside className="w-[clamp(250px,50%,600px)] border-2 border-black border-solid p-3 absolute left-16 top-[25rem] min-h-32  rounded-tl-lg rounded-br-lg">
           <p>
-            Copy&Save es una aplicación web que te permite guardar tus textos
-            favoritos para leerlos cuando quieras.
-          </p>
-          <p>
-            Para empezar, inicia sesión o registrate para empezar a guardar tus
-            textos.
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta
+            aperiam numquam dolorum. Soluta enim libero dolorem fuga quam,
+            deserunt consequatur iusto eveniet tempore expedita iste modi
+            voluptate tempora ad atque.
           </p>
         </aside>
       </article>
