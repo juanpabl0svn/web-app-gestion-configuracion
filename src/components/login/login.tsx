@@ -1,9 +1,13 @@
 "use client";
 
+import EyeClose from "@/svg/eye-close";
+import EyeOpen from "@/svg/eye-open";
 import Link from "next/link";
-
+import { useState } from "react";
 
 export default function LogIn() {
+  const [type, setType] = useState("password");
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -21,7 +25,7 @@ export default function LogIn() {
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Login</h2>
-          <form className="flex flex-col" onSubmit={handleSubmit}>
+          <form className="flex flex-col relative" onSubmit={handleSubmit}>
             <input
               type="email"
               name="email"
@@ -30,12 +34,26 @@ export default function LogIn() {
               placeholder="Email address"
             />
             <input
-              type="password"
+              type={type}
               name="password"
               id="password"
               className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
               placeholder="Password"
             />
+            {type === "password" ? (
+              <EyeClose
+                className="absolute right-2 top-[75px] -translate-y-1/2 cursor-pointer opacity-80 hover:opacity-100 transition-all duration-200 ease-in-out w-10 aspect-square"
+                onClick={() => setType("text")}
+              />
+            ) : (
+              <EyeOpen
+                className="absolute right-2 top-[75px] -translate-y-1/2 cursor-pointer opacity-80 hover:opacity-100 transition-all duration-200 ease-in-out w-10 aspect-square"
+                onClick={() => setType("password")}
+              />
+            )}
+
+            
+
             <div className="flex items-center justify-between flex-wrap">
               <label
                 htmlFor="remember-me"

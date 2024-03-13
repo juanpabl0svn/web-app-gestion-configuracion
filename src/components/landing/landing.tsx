@@ -1,15 +1,16 @@
+import Header from "../header/header";
+
 export default function Landing() {
   return (
     <main className="min-h-dvh h-full mb-10  relative flex flex-col items-center">
-      <header className="h-20 w-full bg-green-300 shadow-xl"></header>
+      <Header/>
       <article className="text-center relative max-w-[1200px]">
         <h1 className="text-6xl mt-5">
           Bienvenido a
-          <span className="font-bold from-stone-600 inline-block">
+          <span className="ml-3 font-bold from-stone-600 inline-block">
             Copy&Save
           </span>
         </h1>
-
         <aside className="w-[clamp(200px,45%,600px)] border border-black border-solid p-3 rounded-xl absolute left-20 top-40 ">
           <p>
             Copy&Save es una aplicación web que te permite guardar tus textos
