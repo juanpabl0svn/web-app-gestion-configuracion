@@ -7,17 +7,14 @@ export default function AuthMiddleware({
 }: {
   children: React.ReactNode;
 }) {
-  const token = cookies().get("token-web-app");
+  const token = cookies().get("token-web-app")?.value;
 
-  if (!token) return children;
+  if (!token) return redirect("/login");
 
   return POST("/auth/verify", { token })
     .then((data) => {
-      if (!data) return redirect("/");
-      return children;
+      if (data) return children;
+      throw new Error("Something went wrong");
     })
-    .catch((error) => {
-      console.error("Error verifying token:", error);
-      return redirect("/");
-    });
+    .catch(() => redirect("/login"));
 }

@@ -1,23 +1,42 @@
 "use client";
 
+import { useAuth } from "@/context/auth/auth.context";
 import EyeClose from "@/svg/eye-close";
 import EyeOpen from "@/svg/eye-open";
+import POST from "@/utils/POST";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LogIn() {
   const [type, setType] = useState("password");
 
-  function handleSubmit(e: React.FormEvent) {
+  const { logIn } = useAuth();
+
+  const router = useRouter();
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const { email, password } = e.target as HTMLFormElement;
-    email;
+    const { username, password } = e.target as HTMLFormElement;
+    username;
 
-    if (!email.value) return;
+    if (!username.value) return;
     if (!password.value) return;
 
-    document.cookie = `token-web-app=${email.value}`;
+    try {
+      const req = await POST("/login", {
+        username: username.value,
+        password: password.value,
+      });
+      document.cookie = `token-web-app=${username.value}`;
+
+      logIn(req.data);
+
+      router.push("/main");
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -27,11 +46,11 @@ export default function LogIn() {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Login</h2>
           <form className="flex flex-col relative" onSubmit={handleSubmit}>
             <input
-              type="email"
-              name="email"
-              id="email"
+              type="text"
+              name="username"
+              id="username"
               className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
-              placeholder="Email address"
+              placeholder="Username"
             />
             <input
               type={type}
@@ -51,8 +70,6 @@ export default function LogIn() {
                 onClick={() => setType("password")}
               />
             )}
-
-            
 
             <div className="flex items-center justify-between flex-wrap">
               <label

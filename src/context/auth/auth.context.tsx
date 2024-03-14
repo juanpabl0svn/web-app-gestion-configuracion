@@ -1,12 +1,14 @@
+"use client";
 import { createContext, useContext, useReducer } from "react";
 import authReducer from "./auth.reducer";
+
+import { IUSER } from "@/models/user";
 
 const INITAIL_STATE = {
   username: "",
   name: "",
-  token: "",
   isAuth: false,
-  logIn: () => {},
+  logIn: (user: IUSER) => {},
 };
 
 const AuthContext = createContext(INITAIL_STATE);
@@ -21,7 +23,14 @@ export default function AuthProvider({
   const [state, dispatch] = useReducer(authReducer, INITAIL_STATE);
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+    <AuthContext.Provider
+      value={{
+        ...state,
+        logIn(user: IUSER) {
+          return dispatch({ type: "LOG_IN", payload: user });
+        },
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

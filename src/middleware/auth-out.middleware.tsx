@@ -13,11 +13,13 @@ export default function AuthOutMiddleware({
 
   return POST("/auth/verify", { token })
     .then((data) => {
-      if (!data) return children;
-      return redirect("/");
+      if (data) throw new Error("NEXT_REDIRECT");
+      throw new Error("Something went wrong");
     })
-    .catch(() => {
-      console.error("Error verifying token:");
+    .catch((e) => {
+      if (e.message == "NEXT_REDIRECT") {
+        return redirect("/main");
+      }
       return children;
     });
 }
