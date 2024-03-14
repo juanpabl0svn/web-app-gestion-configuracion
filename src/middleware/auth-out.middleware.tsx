@@ -11,6 +11,8 @@ export default function AuthOutMiddleware({
 
   if (!token) return children;
 
+  console.log('hoas')
+
   return POST("/auth/verify", { token })
     .then((data) => {
       if (data) throw new Error("NEXT_REDIRECT");

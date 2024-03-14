@@ -5,7 +5,7 @@ import Header from "../header/header";
 import { useEffect } from "react";
 
 export default function Main() {
-  const { username } = useAuth();
+  const {username} = useAuth();
 
   useEffect(() => {
     console.log(username);

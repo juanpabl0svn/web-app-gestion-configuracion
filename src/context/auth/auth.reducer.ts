@@ -1,9 +1,9 @@
 export default function authReducer(
-  state: string,
+  state: { isAuth: boolean; username: string; name: string },
   action: { type: string; payload?: any }
 ) {
   switch (action.type) {
-    case "LOGIN":
+    case "LOG_IN":
       return {
         isAuth: true,
         ...action.payload,
