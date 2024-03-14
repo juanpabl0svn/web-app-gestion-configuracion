@@ -7,8 +7,9 @@ import { IUSER } from "@/models/user";
 const INITAIL_STATE = {
   username: "",
   name: "",
+  list: [],
   isAuth: false,
-  logIn: (user: IUSER) => {},
+  updateList(list: []) {},
 };
 
 const AuthContext = createContext(INITAIL_STATE);
@@ -26,18 +27,16 @@ export default function AuthProvider({
 
   useEffect(() => {
     if (data && state.isAuth === false) {
-    
       dispatch({ type: "LOG_IN", payload: data });
     }
-    console.log(state)
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
         ...state,
-        logIn(user: IUSER) {
-          return dispatch({ type: "LOG_IN", payload: user });
+        updateList: (list: IUSER[]) => {
+          dispatch({ type: "UPDATE_LIST", payload: list });
         },
       }}
     >

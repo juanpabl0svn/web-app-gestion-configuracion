@@ -3,7 +3,7 @@ export let USERS = [
     name: "Juan Pablo Sanchez",
     username: "Juan Pa",
     password: "1234",
-    letters: [
+    list: [
       {
         id: crypto.randomUUID(),
         label: "Primera vez con carta",
@@ -14,7 +14,7 @@ export let USERS = [
     name: "Alejandro Peña",
     username: "Alejo",
     password: "soyalejo",
-    letters: [
+    list: [
       {
         id: crypto.randomUUID(),
         label: "Primera vez",

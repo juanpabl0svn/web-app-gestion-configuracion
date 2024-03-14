@@ -8,6 +8,11 @@ export default function authReducer(
         isAuth: true,
         ...action.payload,
       };
+    case "UPDATE_LIST":
+      return {
+        ...state,
+        list: action.payload,
+      };
     default:
       return state;
   }
