@@ -2,14 +2,14 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import authReducer from "./auth.reducer";
 
-import { IUSER } from "@/models/user";
+import { IUSER, ILIST } from "@/models/user";
 
 const INITAIL_STATE = {
   username: "",
   name: "",
   list: [],
   isAuth: false,
-  updateList(list: []) {},
+  updateList(list: ILIST[]) {},
 };
 
 const AuthContext = createContext(INITAIL_STATE);
