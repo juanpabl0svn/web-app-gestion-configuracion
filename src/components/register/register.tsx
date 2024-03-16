@@ -3,6 +3,13 @@
 import Link from "next/link";
 
 export default function Register() {
+
+  const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {}
+
+
+
+
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen h-full py-20">
       <aside className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
@@ -30,9 +37,18 @@ export default function Register() {
           />
           <input
             placeholder="Password"
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-1 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
             type="password"
+            onChange={handlePasswordStrength}
           />
+
+          <div className="flex items-center justify-center h-9 gap-3 px-4">
+            <div
+              id="password-secure"
+              className="w-full h-4 border-2 border-bg-blue-500 rounded-xl "
+            ></div>
+            <span  className="flex items-center">Insegura</span>
+          </div>
           <input
             placeholder="Confirm Password"
             className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
