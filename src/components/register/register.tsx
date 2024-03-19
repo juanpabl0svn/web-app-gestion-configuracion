@@ -1,14 +1,42 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Register() {
+  const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const password = e.target.value;
 
-  const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {}
+    const passwordSecureBar = e.target.nextSibling?.childNodes[0]
+      ?.childNodes[0] as HTMLElement;
+    const passwordSecureText = e.target.nextSibling
+      ?.childNodes[1] as HTMLElement;
 
+    if (password.length === 0) {
+      passwordSecureBar.style.backgroundColor = "#ffffff";
+      passwordSecureBar.style.width = "0%";
+      passwordSecureText.style.opacity = "0";
+      return;
+    }
 
+    passwordSecureText.style.opacity = "100%";
 
+    if (password.length < 6) {
+      passwordSecureBar.style.backgroundColor = "#ff0000";
+      passwordSecureBar.style.width = "30%";
+      passwordSecureText.textContent = "Insegura";
+    } else if (password.length < 10) {
+      passwordSecureBar.style.backgroundColor = "#ffcc00";
+      passwordSecureBar.style.width = "80%";
 
+      passwordSecureText.textContent = "Regular";
+    } else {
+      passwordSecureBar.style.backgroundColor = "#00ff00";
+      passwordSecureBar.style.width = "100%";
+
+      passwordSecureText.textContent = "Segura";
+    }
+  };
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen h-full py-20">
@@ -42,12 +70,17 @@ export default function Register() {
             onChange={handlePasswordStrength}
           />
 
-          <div className="flex items-center justify-center h-9 gap-3 px-4">
+          <div className="flex items-center justify-center h-9 gap-3 px-4 overflow-hidden">
             <div
               id="password-secure"
-              className="w-full h-4 border-2 border-bg-blue-500 rounded-xl "
-            ></div>
-            <span  className="flex items-center">Insegura</span>
+              className="w-full h-4 border-2 border-bg-blue-500 rounded-xl overflow-hidden"
+            >
+              <div
+                id="bg-color"
+                className="h-full transition-all ease-in-out duration-300"
+              ></div>
+            </div>
+            <span className="flex items-center h-full min-w-14 transition-all ease-in-out duration-300"></span>
           </div>
           <input
             placeholder="Confirm Password"
