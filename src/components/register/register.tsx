@@ -1,43 +1,56 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+
+const STYLES = {
+  0: ["", "", "0%"],
+  1: ["Insegura", "#ff0000", "30%"],
+  2: ["Regular", "#ffcc00", "80%"],
+  3: ["Segura", "#00ff00", "100%"],
+};
+
+const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const password = e.target.value;
+
+  const passwordSecureBar = e.target.nextSibling?.childNodes[0]
+    ?.childNodes[0] as HTMLElement;
+  const passwordSecureText = e.target.nextSibling?.childNodes[1] as HTMLElement;
+
+  let security: keyof typeof STYLES = 0;
+
+  const hasNumbers = /\d/.test(password);
+
+  const hasUppercase = /[A-Z]/.test(password);
+
+  const { length } = password;
+
+  if (length === 0) {
+    passwordSecureBar.style.backgroundColor = "#ffffff";
+    passwordSecureBar.style.width = "0%";
+    passwordSecureText.style.opacity = "0";
+    return;
+  }
+
+  passwordSecureText.style.opacity = "100%";
+
+  if (length > 4) {
+    security++;
+  }
+  if (hasUppercase) {
+    security++;
+  }
+  if (hasNumbers) {
+    security++;
+  }
+
+  const [text, color, width] = STYLES[security];
+
+  passwordSecureText.textContent = text;
+  passwordSecureBar.style.backgroundColor = color;
+  passwordSecureBar.style.width = width;
+};
 
 export default function Register() {
-  const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const password = e.target.value;
-
-    const passwordSecureBar = e.target.nextSibling?.childNodes[0]
-      ?.childNodes[0] as HTMLElement;
-    const passwordSecureText = e.target.nextSibling
-      ?.childNodes[1] as HTMLElement;
-
-    if (password.length === 0) {
-      passwordSecureBar.style.backgroundColor = "#ffffff";
-      passwordSecureBar.style.width = "0%";
-      passwordSecureText.style.opacity = "0";
-      return;
-    }
-
-    passwordSecureText.style.opacity = "100%";
-
-    if (password.length < 6) {
-      passwordSecureBar.style.backgroundColor = "#ff0000";
-      passwordSecureBar.style.width = "30%";
-      passwordSecureText.textContent = "Insegura";
-    } else if (password.length < 10) {
-      passwordSecureBar.style.backgroundColor = "#ffcc00";
-      passwordSecureBar.style.width = "80%";
-
-      passwordSecureText.textContent = "Regular";
-    } else {
-      passwordSecureBar.style.backgroundColor = "#00ff00";
-      passwordSecureBar.style.width = "100%";
-
-      passwordSecureText.textContent = "Segura";
-    }
-  };
-
   return (
     <main className="flex flex-col items-center justify-center min-h-screen h-full py-20">
       <aside className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
