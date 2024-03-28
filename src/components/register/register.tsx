@@ -1,6 +1,8 @@
 "use client";
 
+import POST from "@/utils/POST";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const STYLES = {
   0: ["", "", "0%"],
@@ -51,36 +53,62 @@ const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
 };
 
 export default function Register() {
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const { name, username, email, password, password2 } =
+      Object.fromEntries(formData);
+
+    if (!name || !username || !email || !password || !password2) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    if (password !== password2) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      await POST("/register", { email, password, username, name });
+      document.cookie = `token-web-app=${username}`;
+      router.replace("/main");
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
     <main className="flex flex-col items-center justify-center min-h-screen h-full py-20">
       <aside className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Sign Up</h2>
-        <form className="flex flex-col">
+        <form className="flex flex-col" onSubmit={handleSubmit}>
           <input
-            placeholder="First Name"
+            placeholder="Nombre"
+            name="name"
             className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
             type="text"
           />
           <input
-            placeholder="Last Name"
+            placeholder="Usuario"
             className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
             type="text"
+            name="username"
           />
           <input
             placeholder="Email"
             className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
             type="email"
+            name="email"
           />
           <input
-            placeholder="Confirm Email"
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
-            type="email"
-          />
-          <input
-            placeholder="Password"
+            placeholder="Contraseña"
             className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-1 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
             type="password"
             onChange={handlePasswordStrength}
+            name="password"
           />
 
           <div className="flex items-center justify-center h-9 gap-3 px-4 overflow-hidden">
@@ -96,35 +124,12 @@ export default function Register() {
             <span className="flex items-center h-full min-w-14 transition-all ease-in-out duration-300"></span>
           </div>
           <input
-            placeholder="Confirm Password"
+            placeholder="Confirmar contraseña"
             className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
             type="password"
+            name="password2"
           />
-          <label
-            className="text-sm mb-2 text-gray-900 cursor-pointer"
-            htmlFor="gender"
-          >
-            Gender
-          </label>
-          <select
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
-            id="gender"
-          >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-          <label
-            className="text-sm mb-2 text-gray-900 cursor-pointer"
-            htmlFor="age"
-          >
-            Age
-          </label>
-          <input
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2"
-            id="age"
-            type="date"
-          />
+
           <p className="text-gray-900 mt-4">
             ¿Ya tienes una cuenta?
             <Link

@@ -12,6 +12,7 @@ export default function AuthMiddleware({
 
   if (!token) return redirect("/login");
 
+
   return POST("/auth/verify", { token })
     .then((data) => {
       if (data) return <AuthProvider data={data.data}>{children}</AuthProvider>;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { USERS } from "../database";
+import { actualizarUsers, obtenerUser } from "../database.service";
 
 export async function POST(req: NextRequest) {
   const { username, list } = await req.json();
@@ -8,13 +8,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const index = USERS.findIndex((user) => user.username === username);
+  const user = await obtenerUser(username);
 
-  if (index === -1) {
+  if (user == null) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-    USERS[index].list = list;
 
-    return NextResponse.json({ message: "List updated" });
+  actualizarUsers(username, { ...user, list });
+
+  return NextResponse.json({ message: "List updated" });
 }

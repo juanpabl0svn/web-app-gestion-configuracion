@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { USERS } from "../../database";
+import { obtenerUser } from "../../database.service";
 
 export async function POST(req: NextRequest) {
   const { token } = await req.json();
@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "No token" }, { status: 400 });
   }
 
-  const user = USERS.find((user) => user.username === token);
+  const user = await obtenerUser(token);
 
   if (!user) {
     return NextResponse.json({ message: "No user" }, { status: 400 });

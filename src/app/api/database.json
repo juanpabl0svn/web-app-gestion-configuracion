@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Juan Pablo Sanchez",
+    "username": "juanpa",
+    "password": "1234",
+    "list": [
+      {
+        "id": 1,
+        "label": "Primera vez con carta"
+      }
+    ]
+  },
+  {
+    "name": "Alejandro Peña",
+    "username": "alejo",
+    "password": "soyalejo",
+    "list": [
+      {
+        "id": 1,
+        "label": "Primera vez"
+      }
+    ]
+  },
+  {
+    "name": "pedro infante",
+    "username": "pedro",
+    "password": "1",
+    "list": []
+  },
+  {
+    "name": "papa francisco",
+    "username": "papa",
+    "password": "1",
+    "list": [
+      {
+        "id": "c9133d4f-572d-4af6-beb4-325ffb6f4540",
+        "label": "jajaja"
+      }
+    ]
+  }
+]

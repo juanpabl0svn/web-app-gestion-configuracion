@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { USERS } from "../database";
-import { cookies } from "next/headers";
+import { obtenerUser } from "../database.service";
 
 export async function POST(req: NextRequest) {
   const { username, password } = await req.json();
@@ -11,12 +10,14 @@ export async function POST(req: NextRequest) {
       { status: 404 }
     );
   }
-  const user = USERS.find(
-    (user) => user.username === username && user.password === password
-  );
+  const user = await obtenerUser(username);
 
-  if (user == null)
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  if (user == null || user.password !== password) {
+    return NextResponse.json(
+      { error: "Username or password incorrect" },
+      { status: 404 }
+    );
+  }
 
   return NextResponse.json(user, {
     headers: { "Set-Cookie": `token-web-app=${username}; Path=/` },

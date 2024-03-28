@@ -28,7 +28,7 @@ export default function LogIn() {
       });
       document.cookie = `token-web-app=${username.value}`;
 
-      router.push("/main");
+      router.replace("/main");
     } catch (e) {
       console.log(e);
     }
