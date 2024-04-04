@@ -19,13 +19,15 @@ export async function createUser(user: IUSER) {
 // READ
 export async function obtenerUser(username: string): Promise<IUSER> {
   const data = await leerArchivo();
-  return data.filter((u: IUSER) => u.username === username)?.[0];
+  return data.filter(
+    (u: IUSER) => u.username.toLowerCase() === username.toLowerCase()
+  )?.[0];
 }
 
 // UPDATE
 export async function actualizarUsers(username: string, newData: IUSER) {
   const data: IUSER[] = await leerArchivo();
-  const index = data.findIndex((u: IUSER) => u.username === username);
+  const index = data.findIndex((u: IUSER) => u.username.toLowerCase() === username.toLowerCase());
   if (index !== -1) {
     data[index] = newData;
     console.log(data[index]);
@@ -36,7 +38,7 @@ export async function actualizarUsers(username: string, newData: IUSER) {
 // DELETE
 export async function eliminarUsers(username: string) {
   let data = await leerArchivo();
-  data = data.filter((u: IUSER) => u.username !== username);
+  data = data.filter((u: IUSER) => u.username.toLowerCase() !== username.toLowerCase());
   await escribirArchivo(data);
 }
 

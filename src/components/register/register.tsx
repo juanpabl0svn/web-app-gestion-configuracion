@@ -4,12 +4,12 @@ import POST from "@/utils/POST";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const STYLES = {
-  0: ["", "", "0%"],
-  1: ["Insegura", "#ff0000", "30%"],
-  2: ["Regular", "#ffcc00", "80%"],
-  3: ["Segura", "#00ff00", "100%"],
-};
+const STYLES = [
+  ["", "", "0%"],
+  ["Insegura", "#ff0000", "30%"],
+  ["Regular", "#ffcc00", "80%"],
+  ["Segura", "#00ff00", "100%"],
+];
 
 const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
   const password = e.target.value;
@@ -18,7 +18,7 @@ const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
     ?.childNodes[0] as HTMLElement;
   const passwordSecureText = e.target.nextSibling?.childNodes[1] as HTMLElement;
 
-  let security: keyof typeof STYLES = 0;
+  let security = 0;
 
   const hasNumbers = /\d/.test(password);
 
@@ -45,7 +45,7 @@ const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
     security++;
   }
 
-  const [text, color, width] = STYLES[security];
+  const [text, color, width] = STYLES[security] ?? ["", "", "0%"];
 
   passwordSecureText.textContent = text;
   passwordSecureBar.style.backgroundColor = color;
@@ -81,7 +81,7 @@ export default function Register() {
     }
   };
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen h-full py-20">
+    <main className="flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] h-full py-20">
       <aside className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Sign Up</h2>
         <form className="flex flex-col" onSubmit={handleSubmit}>

@@ -8,6 +8,12 @@ export default function authReducer(
         isAuth: true,
         ...action.payload,
       };
+    case "LOG_OUT":
+      return {
+        isAuth: false,
+        username: "",
+        name: "",
+      };
     case "UPDATE_LIST":
       return {
         ...state,

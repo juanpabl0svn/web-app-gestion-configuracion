@@ -1,9 +1,30 @@
+import { useEffect } from "react";
 import Header from "../header/header";
+import POST from "@/utils/POST";
+import { useAuth } from "@/context/auth/auth.context";
+import { IUSER } from "@/models/user";
+import { AxiosResponse } from "axios";
 
 export default function Landing() {
+  const { logIn } = useAuth();
+
+  useEffect(() => {
+    const user = document.cookie.replace(
+      /(?:(?:^|.*;\s*)token-web-app\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+
+    if (user) {
+      POST("/auth/verify", { token: user })
+        .then((data: AxiosResponse<IUSER>) => {
+          logIn(data.data);
+        })
+        .catch(console.log);
+    }
+  }, []);
+
   return (
     <main className="min-h-dvh h-full mb-10  relative flex flex-col items-center">
-      <Header/>
       <article className="text-center relative max-w-[1200px]">
         <h1 className="text-6xl mt-5">
           Bienvenido a

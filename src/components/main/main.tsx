@@ -76,7 +76,6 @@ export default function Main() {
 
   return (
     <main>
-      <Header />
       <aside className="w-full flex justify-center mt-8">
         <form
           onSubmit={handleSubmit}
