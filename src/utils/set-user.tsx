@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/auth/auth.context";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function SetUser({
   children,
@@ -13,6 +13,7 @@ export default function SetUser({
   const { logIn, isAuth } = useAuth();
 
   useEffect(() => {
+    console.log(data);
     if (data && !isAuth) {
       logIn(data);
     }

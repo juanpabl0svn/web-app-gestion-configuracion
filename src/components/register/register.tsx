@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 const STYLES = [
   ["", "", "0%"],
   ["Insegura", "#ff0000", "30%"],
-  ["Regular", "#ffcc00", "80%"],
+  ["Insegura", "#F79F00", "50%"],
+  ["Fuerte", "#ffcc00", "80%"],
   ["Segura", "#00ff00", "100%"],
 ];
 
@@ -34,6 +35,8 @@ const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
   }
 
   passwordSecureText.style.opacity = "100%";
+
+  security = 1;
 
   if (length > 4) {
     security++;
@@ -88,24 +91,24 @@ export default function Register() {
           <input
             placeholder="Nombre"
             name="name"
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-green-500 transition ease-in-out duration-150"
             type="text"
           />
           <input
             placeholder="Usuario"
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-green-500 transition ease-in-out duration-150"
             type="text"
             name="username"
           />
           <input
             placeholder="Email"
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-green-500 transition ease-in-out duration-150"
             type="email"
             name="email"
           />
           <input
             placeholder="Contraseña"
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-1 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-1 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-green-500 transition ease-in-out duration-150"
             type="password"
             onChange={handlePasswordStrength}
             name="password"
@@ -114,7 +117,7 @@ export default function Register() {
           <div className="flex items-center justify-center h-9 gap-3 px-4 overflow-hidden">
             <div
               id="password-secure"
-              className="w-full h-4 border-2 border-bg-blue-500 rounded-xl overflow-hidden"
+              className="w-full h-4 border-2 border-bg-green-500 rounded-xl overflow-hidden"
             >
               <div
                 id="bg-color"
@@ -125,7 +128,7 @@ export default function Register() {
           </div>
           <input
             placeholder="Confirmar contraseña"
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-green-500 transition ease-in-out duration-150"
             type="password"
             name="password2"
           />
@@ -134,13 +137,13 @@ export default function Register() {
             ¿Ya tienes una cuenta?
             <Link
               href="/login"
-              className="text-sm text-blue-500 -200 hover:underline mt-4 ml-1"
+              className="text-sm text-green-500 -200 hover:underline mt-4 ml-1"
             >
               Iniciar sesión
             </Link>
           </p>
           <button
-            className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150"
+            className="bg-gradient-to-r from-green-300 to-green-500 text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-green-600 transition ease-in-out duration-150"
             type="submit"
           >
             Sign Up

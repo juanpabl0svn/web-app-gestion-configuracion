@@ -1,8 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/auth/auth.context";
-import Header from "../header/header";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ILIST } from "@/models/user";
 import POST from "@/utils/POST";
 
@@ -13,6 +12,16 @@ export default function Main() {
   const { username, list, updateList } = useAuth();
 
   const [textLength, setTextLength] = useState(0);
+
+  function deleteMessage(index: number) {
+    const newList = list.filter((_, i) => i !== index);
+    try {
+      POST("/delete", { username, list: newList });
+      updateList(newList);
+    } catch (e) {
+      toast.error("Error al eliminar");
+    }
+  }
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     toast.remove();
@@ -99,12 +108,18 @@ export default function Main() {
 
       <article className="w-full h-full flex flex-wrap p-8 gap-8 justify-center items-center">
         {list.length > 0 &&
-          list.map(({ id, label }) => (
+          list.map(({ id, label }, index) => (
             <section
               key={id}
-              className="min-h-10 h-fit bg-blue-300 px-10 py-5 max-w-64 w-fit rounded-md text-white"
+              className="min-h-10 h-fit bg-blue-300 px-10 py-5 max-w-64 w-fit rounded-md text-white relative"
             >
               <p className=" break-words">{label}</p>
+              <span
+                onClick={() => deleteMessage(index)}
+                className="bg-blue-600 rounded-full h-5 aspect-square cursor-pointer absolute -right-2 -top-2 grid place-content-center"
+              >
+                x
+              </span>
             </section>
           ))}
       </article>

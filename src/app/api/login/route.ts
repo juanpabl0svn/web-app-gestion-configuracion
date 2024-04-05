@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { obtenerUser } from "../database.service";
+import { getUser } from "../database.service";
 
 export async function POST(req: NextRequest) {
   const { username, password } = await req.json();
@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       { status: 404 }
     );
   }
-  const user = await obtenerUser(username);
+  const user = await getUser(username);
 
   if (user == null || user.password !== password) {
     return NextResponse.json(

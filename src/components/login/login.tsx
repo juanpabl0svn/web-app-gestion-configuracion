@@ -43,14 +43,14 @@ export default function LogIn() {
             type="text"
             name="username"
             id="username"
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-green-500 transition ease-in-out duration-150"
             placeholder="Username"
           />
           <input
             type={type}
             name="password"
             id="password"
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-green-500 transition ease-in-out duration-150"
             placeholder="Password"
           />
           {type === "password" ? (
@@ -73,14 +73,14 @@ export default function LogIn() {
               <input
                 type="checkbox"
                 id="remember-me"
-                className="mr-2 cursor-pointer"
+                className="accent-green-400 mr-2 cursor-pointer"
               />
               Recuerdame
             </label>
 
             <Link
               href="/forgot-password"
-              className="text-sm text-blue-500 hover:underline mb-0.5 cursor-pointer"
+              className="text-sm text-green-500 hover:underline mb-0.5 cursor-pointer"
             >
               ¿Olvidaste tu contraseña?
             </Link>
@@ -89,7 +89,7 @@ export default function LogIn() {
               No tienes cuenta?
               <Link
                 href="/register"
-                className="text-sm text-blue-500 -200 hover:underline mt-4 ml-1 cursor-pointer"
+                className="text-sm text-green-500 -200 hover:underline mt-4 ml-1 cursor-pointer"
               >
                 Crea una
               </Link>
@@ -97,7 +97,7 @@ export default function LogIn() {
           </div>
           <button
             type="submit"
-            className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150"
+            className="bg-gradient-to-r from-green-300 to-green-500 text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-green-600 hover:to-green-600 transition ease-in-out duration-150"
           >
             Login
           </button>

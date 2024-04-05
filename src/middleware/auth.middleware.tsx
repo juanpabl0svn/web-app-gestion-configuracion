@@ -1,7 +1,6 @@
 import POST from "@/utils/POST";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import AuthProvider from "@/context/auth/auth.context";
 import SetUser from "@/utils/set-user";
 
 export default function AuthMiddleware({
@@ -15,8 +14,12 @@ export default function AuthMiddleware({
 
   return POST("/auth/verify", { token })
     .then((data) => {
+      console.log(data);
       if (data) return <SetUser data={data.data}>{children}</SetUser>;
       throw new Error("Something went wrong");
     })
-    .catch(() => redirect("/login"));
+    .catch((e) => {
+      console.log(e)
+      redirect("/login");
+    });
 }

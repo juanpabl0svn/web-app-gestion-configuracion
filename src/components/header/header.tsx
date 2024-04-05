@@ -37,7 +37,7 @@ export default function Header() {
           </Link>
           <button
             onClick={handleLogOut}
-            className={`absolute right-6 bg-gray-300 px-3 py-1 border border-gray-400 rounded-full cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out opacity-75 hover:opacity-100`}
+            className={`absolute right-2 bg-gray-300 px-3 py-1 border border-gray-400 rounded-full cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out opacity-75 hover:opacity-100`}
           >
             Log out
           </button>

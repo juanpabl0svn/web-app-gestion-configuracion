@@ -11,43 +11,46 @@ const archivoDB = "./src/app/api/database.json";
 
 // CREATE
 export async function createUser(user: IUSER) {
-  const data = await leerArchivo();
+  const data = await readFile();
   data.push(user);
-  await escribirArchivo(data);
+  await writeFile(data);
 }
 
 // READ
-export async function obtenerUser(username: string): Promise<IUSER> {
-  const data = await leerArchivo();
+export async function getUser(username: string): Promise<IUSER> {
+  const data = await readFile();
   return data.filter(
     (u: IUSER) => u.username.toLowerCase() === username.toLowerCase()
   )?.[0];
 }
 
 // UPDATE
-export async function actualizarUsers(username: string, newData: IUSER) {
-  const data: IUSER[] = await leerArchivo();
-  const index = data.findIndex((u: IUSER) => u.username.toLowerCase() === username.toLowerCase());
+export async function updateUser(newData: IUSER) {
+  const data: IUSER[] = await readFile();
+  const index = data.findIndex(
+    (u: IUSER) => u.username.toLowerCase() === newData.username.toLowerCase()
+  );
   if (index !== -1) {
     data[index] = newData;
-    console.log(data[index]);
-    await escribirArchivo(data);
+    await writeFile(data);
   }
 }
 
 // DELETE
-export async function eliminarUsers(username: string) {
-  let data = await leerArchivo();
-  data = data.filter((u: IUSER) => u.username.toLowerCase() !== username.toLowerCase());
-  await escribirArchivo(data);
+export async function deleteUser(username: string) {
+  let data = await readFile();
+  data = data.filter(
+    (u: IUSER) => u.username.toLowerCase() !== username.toLowerCase()
+  );
+  await writeFile(data);
 }
 
 // Funciones de utilidad
-async function leerArchivo() {
+async function readFile() {
   const data = await fs.readFile(archivoDB, "utf8");
   return JSON.parse(data);
 }
 
-async function escribirArchivo(data: any) {
+async function writeFile(data: any) {
   await fs.writeFile(archivoDB, JSON.stringify(data, null, 2), "utf8");
 }
