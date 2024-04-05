@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createUser, obtenerUser } from "../database.service";
+import { createUser, getUser } from "../database.service";
 
 export async function POST(req: NextRequest) {
   const { username, password, name } = await req.json();
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const user = await obtenerUser(username);
+  const user = await getUser(username);
 
   if (user) {
     return NextResponse.json({ error: "User already exists" });
