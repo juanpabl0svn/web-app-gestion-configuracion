@@ -11,6 +11,7 @@ export default function authReducer(
     case "LOG_OUT":
       return {
         isAuth: false,
+        list: [],
         username: "",
         name: "",
       };
