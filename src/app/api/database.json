@@ -2,7 +2,7 @@
   {
     "name": "Juan Pablo Sanchez",
     "username": "juanpa",
-    "password": "1234",
+    "password": "abcd",
     "list": [
       {
         "id": "53640180-07e2-4d02-aeba-bd1a41dbf715",
@@ -24,13 +24,13 @@
   {
     "name": "pedro infante",
     "username": "pedro",
-    "password": "1",
+    "password": "abcd",
     "list": []
   },
   {
     "name": "papa francisco",
     "username": "papa",
-    "password": "1",
+    "password": "abcd",
     "list": [
       {
         "id": "c9133d4f-572d-4af6-beb4-325ffb6f4540",
