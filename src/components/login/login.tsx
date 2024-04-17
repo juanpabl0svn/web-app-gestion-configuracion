@@ -6,6 +6,7 @@ import POST from "@/utils/POST";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function LogIn() {
   const [type, setType] = useState("password");
@@ -14,9 +15,15 @@ export default function LogIn() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    toast.remove();
 
     const { username, password } = e.target as HTMLFormElement;
     username;
+
+    const hasNumbers = /\d/.test(password.value);
+
+    if (hasNumbers)
+      return toast.error("La contraseña no puede contener números");
 
     if (!username.value) return;
     if (!password.value) return;
@@ -36,6 +43,7 @@ export default function LogIn() {
 
   return (
     <main className="w-full min-h-[calc(100vh-5rem)] h-full grid place-content-center">
+      <Toaster />
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Login</h2>
         <form className="flex flex-col relative" onSubmit={handleSubmit}>

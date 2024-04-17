@@ -3,16 +3,17 @@
 import POST from "@/utils/POST";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 const STYLES = [
   ["", "", "0%"],
   ["Insegura", "#ff0000", "30%"],
   ["Insegura", "#F79F00", "50%"],
-  ["Fuerte", "#ffcc00", "80%"],
   ["Segura", "#00ff00", "100%"],
 ];
 
 const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
+  toast.remove();
   const password = e.target.value;
 
   const passwordSecureBar = e.target.nextSibling?.childNodes[0]
@@ -23,7 +24,16 @@ const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   const hasNumbers = /\d/.test(password);
 
+  if (hasNumbers) {
+    e.target.value = password.replace(/\d/g, "");
+    return toast.error("La contraseña no puede contener números");
+  }
+
   const hasUppercase = /[A-Z]/.test(password);
+
+  const hasSpecialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(
+    password
+  );
 
   const { length } = password;
 
@@ -36,7 +46,7 @@ const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   passwordSecureText.style.opacity = "100%";
 
-  security = 1;
+  security = 0;
 
   if (length > 4) {
     security++;
@@ -44,7 +54,7 @@ const handlePasswordStrength = (e: React.ChangeEvent<HTMLInputElement>) => {
   if (hasUppercase) {
     security++;
   }
-  if (hasNumbers) {
+  if (hasSpecialCharacters) {
     security++;
   }
 
@@ -71,7 +81,7 @@ export default function Register() {
     }
 
     if (password !== password2) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -85,6 +95,7 @@ export default function Register() {
   };
   return (
     <main className="flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] h-full py-20">
+      <Toaster />
       <aside className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Sign Up</h2>
         <form className="flex flex-col" onSubmit={handleSubmit}>
