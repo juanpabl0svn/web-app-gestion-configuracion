@@ -37,7 +37,11 @@ export default function Main() {
     setTextLength(length);
   }
 
-  function handleKeydown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+  function handleKeydown(
+    e:
+      | React.KeyboardEvent<HTMLTextAreaElement>
+      | React.KeyboardEvent<HTMLInputElement>
+  ) {
     if (e.key === "Enter") {
       e.preventDefault();
 
@@ -46,6 +50,30 @@ export default function Main() {
           .nextElementSibling as HTMLButtonElement
       )?.click();
     }
+  }
+
+  async function handleWordSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    toast.remove();
+    const word = (e.target as HTMLFormElement).word.value;
+
+    if (word == "") return;
+
+    const text = document.querySelector("#text") as HTMLTextAreaElement;
+    if (text == null) return;
+
+    const wordsInText = text.value
+      .split(" ")
+      .filter((w) => w.toLocaleLowerCase() === word.toLowerCase());
+
+    if (wordsInText.length === 0) {
+      toast.error("No se ha encontrado la palabra en el texto");
+      return;
+    }
+
+    toast.success(
+      `Se ha encontrado la palabra ${word} ${wordsInText.length} veces`
+    );
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -85,7 +113,21 @@ export default function Main() {
 
   return (
     <main>
-      <aside className="w-full flex justify-center mt-8">
+      <aside className="w-full flex justify-center items-center flex-col mt-8 gap-6">
+        <form className="w-full max-w-[300px] h-full py-3 bg-green-400/60 rounded-lg border border-green-700/40 shadow-lg flex flex-col items-center gap-5" onSubmit={handleWordSubmit}>
+          <label htmlFor="word" className="text-white">
+            Palabra a buscar:
+          </label>
+          <input
+            type="text"
+            id="word"
+            className=" px-3 w-3/4 rounded-md outline-green-700"
+            onKeyDown={handleKeydown}
+          />
+          <button className="px-3 py-2 bg-green-600/80 rounded-lg text-white hover:scale-105 transition-all duration-300 ease-in-out">
+            Buscar
+          </button>
+        </form>
         <form
           onSubmit={handleSubmit}
           className="w-[clamp(500px,60vw,800px)] min-h-44 h-full bg-green-400/60 rounded-lg border border-green-700/40 shadow-lg flex flex-col items-center pt-4"
@@ -96,7 +138,7 @@ export default function Main() {
           <textarea
             name="text"
             id="text"
-            className=" w-3/4 resize-none rounded-md px-4 py-2"
+            className=" w-3/4 resize-none rounded-md px-4 py-2 outline-green-800"
             onKeyDown={handleKeydown}
             onChange={handleChange}
           ></textarea>
