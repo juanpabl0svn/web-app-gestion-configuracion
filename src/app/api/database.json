@@ -5,8 +5,16 @@
     "password": "abcd",
     "list": [
       {
-        "id": "53640180-07e2-4d02-aeba-bd1a41dbf715",
-        "label": "asdf"
+        "id": "7278f339-263a-495f-b8f2-71a638224b6c",
+        "label": "amigo"
+      },
+      {
+        "id": "4d0da83f-5b4f-40ff-84bb-20d018e770aa",
+        "label": "amigo"
+      },
+      {
+        "id": "fad65ba6-e627-43a3-93b0-e15beb937c43",
+        "label": "amigo"
       }
     ]
   },

@@ -57,23 +57,33 @@ export default function Main() {
     toast.remove();
     const word = (e.target as HTMLFormElement).word.value;
 
-    if (word == "") return;
-
     const text = document.querySelector("#text") as HTMLTextAreaElement;
-    if (text == null) return;
 
     const wordsInText = text.value
       .split(" ")
-      .filter((w) => w.toLocaleLowerCase() === word.toLowerCase());
+      .filter((w) => w.toLocaleLowerCase() === word.toLowerCase()).length;
 
-    if (wordsInText.length === 0) {
-      toast.error("No se ha encontrado la palabra en el texto");
+    const wordsInNotes = [...list].reduce(
+      (acc, { label }: { label: string }) => {
+        return (
+          acc +
+          label.split(" ").filter((w) => w.toLowerCase() === word.toLowerCase())
+            .length
+        );
+      },
+      0
+    );
+
+    const total = wordsInText + wordsInNotes;
+
+    if (total === 0) {
+      toast.error(
+        "No se ha encontrado la palabra ni en el texto ni en la notas"
+      );
       return;
     }
 
-    toast.success(
-      `Se ha encontrado la palabra ${word} ${wordsInText.length} veces`
-    );
+    toast.success(`Se ha encontrado la palabra ${word}, ${total} veces`);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -114,7 +124,10 @@ export default function Main() {
   return (
     <main>
       <aside className="w-full flex justify-center items-center flex-col mt-8 gap-6">
-        <form className="w-full max-w-[300px] h-full py-3 bg-green-400/60 rounded-lg border border-green-700/40 shadow-lg flex flex-col items-center gap-5" onSubmit={handleWordSubmit}>
+        <form
+          className="w-full max-w-[300px] h-full py-3 bg-green-400/60 rounded-lg border border-green-700/40 shadow-lg flex flex-col items-center gap-5"
+          onSubmit={handleWordSubmit}
+        >
           <label htmlFor="word" className="text-white">
             Palabra a buscar:
           </label>
