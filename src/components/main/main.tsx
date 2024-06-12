@@ -161,7 +161,7 @@ export default function Main() {
 
     const newList: ILIST[] = [
       ...list,
-      { id: crypto.randomUUID(), label: text },
+      { id: `${Math.random()}-${Math.random()}`, label: text },
     ];
 
     try {

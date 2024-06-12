@@ -13,7 +13,6 @@ export default function SetUser({
   const { logIn, isAuth } = useAuth();
 
   useEffect(() => {
-    console.log(data);
     if (data && !isAuth) {
       logIn(data);
     }
