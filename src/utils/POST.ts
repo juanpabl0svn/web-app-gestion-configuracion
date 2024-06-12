@@ -1,9 +1,8 @@
 import axios from "axios";
-import { url } from "./config";
+import { URL } from "./config";
 
 export default function POST(endpoint: string, body?: any | null) {
-
-  return axios.post(url + endpoint, body, {
+  return axios.post(URL + endpoint, body, {
     withCredentials: true,
   });
 }

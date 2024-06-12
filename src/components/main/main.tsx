@@ -8,10 +8,14 @@ import POST from "@/utils/POST";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
+import File from "@/svg/file";
+
 export default function Main() {
   const { username, list, updateList } = useAuth();
 
   const [textLength, setTextLength] = useState(0);
+
+  const [isFile, setIsFile] = useState<string | null>(null);
 
   function deleteMessage(index: number) {
     const newList = list.filter((_, i) => i !== index);
@@ -52,28 +56,100 @@ export default function Main() {
     }
   }
 
+  const handleIsPalindrom = () => {
+    toast.remove();
+    const text = document.querySelector("#word") as HTMLTextAreaElement;
+
+    const textValue = text.value;
+
+    if (textValue.trim() === "") {
+      toast.error("No hay texto para evaluar");
+      return;
+    }
+    const textValueReverse = textValue.split("").reverse().join("");
+
+    if (textValue === textValueReverse) {
+      toast.success("El texto es palindromo");
+    } else {
+      toast.error("El texto no es palindromo");
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = () => {
+      const result = reader.result as string;
+
+      setIsFile(result);
+    };
+  };
+
+  const removeFile = () => {
+    setIsFile(null);
+    (document.querySelector("#file") as HTMLInputElement).value = "";
+  };
+
   async function handleWordSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     toast.remove();
     const word = (e.target as HTMLFormElement).word.value;
 
-    if (word == "") return;
-
-    const text = document.querySelector("#text") as HTMLTextAreaElement;
-    if (text == null) return;
-
-    const wordsInText = text.value
-      .split(" ")
-      .filter((w) => w.toLocaleLowerCase() === word.toLowerCase());
-
-    if (wordsInText.length === 0) {
-      toast.error("No se ha encontrado la palabra en el texto");
+    if (word.trim() === "") {
+      toast.error("No hay palabra para buscar");
       return;
     }
 
-    toast.success(
-      `Se ha encontrado la palabra ${word} ${wordsInText.length} veces`
+    if (isFile) {
+
+      const fileCleaned = isFile.replace(/\n+/g, ' ') // Removes jump lines
+      
+
+
+      const wordsInFile = fileCleaned
+        .split(" ")
+        .filter((w) => w.toLocaleLowerCase().replace(/\n+/g, ' ') === word.toLowerCase()).length;
+
+      if (wordsInFile === 0) {
+        toast.error("No se ha encontrado la palabra en el archivo");
+        return;
+      }
+
+      toast.success(
+        `Se ha encontrado la palabra ${word}, ${wordsInFile} veces`
+      );
+      return;
+    }
+
+    const text = document.querySelector("#text") as HTMLTextAreaElement;
+
+    const wordsInText = text.value
+      .split(" ")
+      .filter((w) => w.toLocaleLowerCase() === word.toLowerCase()).length;
+
+    const wordsInNotes = [...list].reduce(
+      (acc, { label }: { label: string }) => {
+        return (
+          acc +
+          label.split(" ").filter((w) => w.toLowerCase() === word.toLowerCase())
+            .length
+        );
+      },
+      0
     );
+
+    const total = wordsInText + wordsInNotes;
+
+    if (total === 0) {
+      toast.error(
+        "No se ha encontrado la palabra ni en el texto ni en la notas"
+      );
+      return;
+    }
+
+    toast.success(`Se ha encontrado la palabra ${word}, ${total} veces`);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -81,11 +157,11 @@ export default function Main() {
     toast.remove();
     const text = (e.target as HTMLFormElement).text.value;
 
-    if (text == "") return;
+    if (text.trim() == "") return toast.error("No hay texto para guardar");
 
     const newList: ILIST[] = [
       ...list,
-      { id: crypto.randomUUID(), label: text },
+      { id: `${Math.random()}-${Math.random()}`, label: text },
     ];
 
     try {
@@ -114,19 +190,57 @@ export default function Main() {
   return (
     <main>
       <aside className="w-full flex justify-center items-center flex-col mt-8 gap-6">
-        <form className="w-full max-w-[300px] h-full py-3 bg-green-400/60 rounded-lg border border-green-700/40 shadow-lg flex flex-col items-center gap-5" onSubmit={handleWordSubmit}>
+        <form
+          className="w-full max-w-[300px] h-full py-3 bg-green-400/60 rounded-lg border border-green-700/40 shadow-lg flex flex-col items-center gap-5"
+          onSubmit={handleWordSubmit}
+        >
           <label htmlFor="word" className="text-white">
             Palabra a buscar:
           </label>
-          <input
-            type="text"
-            id="word"
-            className=" px-3 w-3/4 rounded-md outline-green-700"
-            onKeyDown={handleKeydown}
-          />
-          <button className="px-3 py-2 bg-green-600/80 rounded-lg text-white hover:scale-105 transition-all duration-300 ease-in-out">
-            Buscar
-          </button>
+          <div className="w-[80%] px-3 flex gap-2">
+            <input
+              type="file"
+              name="file"
+              id="file"
+              className="hidden"
+              onChange={handleFileChange}
+              accept=".txt"
+            />
+            {isFile ? (
+              <span
+                onClick={removeFile}
+                className="text-white bg-red-600 rounded-md px-2 cursor-pointer"
+              >
+                X
+              </span>
+            ) : (
+              <label
+                htmlFor="file"
+                className="hover:bg-white transition-all duration-200 ease-in-out rounded-md cursor-pointer"
+              >
+                <File />
+              </label>
+            )}
+
+            <input
+              type="text"
+              id="word"
+              className="w-full  rounded-md outline-green-700"
+              onKeyDown={handleKeydown}
+            />
+          </div>
+          <div className="flex gap-3">
+            <button className="px-3 py-2 bg-green-600/80 rounded-lg text-white hover:scale-105 transition-all duration-300 ease-in-out">
+              Buscar
+            </button>
+            <button
+              onClick={handleIsPalindrom}
+              type="button"
+              className="px-3 py-2 bg-blue-600/80 rounded-lg text-white hover:scale-105 transition-all duration-300 ease-in-out"
+            >
+              ¿Es palindromo?
+            </button>
+          </div>
         </form>
         <form
           onSubmit={handleSubmit}
